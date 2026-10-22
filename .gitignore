@@ -1,0 +1,13 @@
+#live samples will NOT go into the repo. The intent is to keep things safe so I (or you) don't accidentally download a live sample
+
+samples/
+*.exe
+*.dll
+*.bin
+*.zip
+*.7z
+
+#python
+__pycache__/
+*.pyc
+.venv/
