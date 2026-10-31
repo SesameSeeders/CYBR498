@@ -23,6 +23,7 @@ import hashlib #used for md5, sha1, and sha256
 import datetime
 import sys
 import pefile #library that parses the PE format
+import re
 
 
 #---------------------------------------------------
@@ -36,6 +37,8 @@ high_entropy = 7.0
 #only what the unpacking stub needs, so importing less is suspect
 min_imports = 10
 
+#shortest run of printable chars that count as a string. 4 is strings tool default
+min_string_len = 4
 
 
 #If these are all the imports, chances are the file is packed.
@@ -93,6 +96,15 @@ code_sections = {
     "PAGE"
 }
 
+
+def get_strings(data):
+    """
+    STRINGS -> list of text foudn in the raw bytes.
+    Looks for runs of ASCII chars at least min_string_len long (4).
+    Same idea as the unix strings tool
+    """
+    pattern = rb"[\x20-\x7e]{%d,}" % min_string_len #ASCII 0x20 (space) - 0x7e (tilde)
+    return [m.decode("ascii") for m in re.findall(pattern, data)]
 
 
 
@@ -215,6 +227,7 @@ def print_pe_info(data):
     1. Compile time
     2. Sections
     3. Imports
+    4. Strings
     4. Packing assessment
 
     pefile.PE() parses headers from bytes in memory (above)
@@ -263,6 +276,15 @@ def print_pe_info(data):
     else:
         print("  (no import table)")
     print(f"  Total imported functions: {sum(len(n) for n in imports.values())}")
+
+    #STRINGS
+    #readable txt in the file. URL, path, registry keys, etc. will show up 
+    #here on an unpacked file.
+    #On a packed file, this will be junk (Mohanta & Saldanha)
+    strings = get_strings(data)
+    print(f"\nStrings: {len(strings)} found (showing 20 longest)")
+    for s in sorted(strings, key = len, reverse = True)[:20]:
+        print(f"    {s[:100]}")
 
     #PACKING ASSESSMENT
     signals, verdict = check_packing(pe, sections, imports)
