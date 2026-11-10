@@ -24,6 +24,9 @@ import datetime
 import sys
 import pefile #library that parses the PE format
 import re
+import subprocess
+import json
+import os
 
 
 #---------------------------------------------------
@@ -95,6 +98,11 @@ code_sections = {
     "INIT",
     "PAGE"
 }
+
+#EXTERNAL TOOLS
+tools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools")
+floss_exe = os.path.join(tools_dir, "floss.exe")
+capa_exe = os.path.join(tools_dir, "capa.exe")
 
 
 def get_strings(data):
@@ -292,6 +300,68 @@ def print_pe_info(data):
     for sig in signals:
         print(f"  - {sig}")
 
+def print_floss(found, limit=30):
+    """
+    FLOSS section  print
+    1. counts for all 4 kinds on one line
+    2. print the runtime-built ones (stack/tight/decoded). these are what
+       packing hides from plain string extraction, so they're what I'm mainly interested in
+    3. static strings already shown above so I'm not going to print them here
+    """
+    print("\nFLOSS:")
+    if found is None:
+        print("  can't get.")
+        return
+
+    counts = ", ".join(f"{k} {len(v)}" for k, v in found.items())
+    print(f"  {counts}")
+
+    for kind in ("stack", "tight", "decoded"):
+        strings = found[kind]
+        if not strings:
+            continue
+        print(f"  {kind} strings ({len(strings)}):")
+        for s in strings[:limit]: #limit in args to stop flooding
+            print(f"    {s}")
+
+
+"""
+ADDING FLOSS
+
+This runs my installed floss.exe as a child process and then reads the JSON instead of a file on disk
+
+"""
+def run_floss(path, min_len=4):
+    """
+    1. make sure floss.exe is in tools\
+    2. run it with -j so the output is JSON
+    3. bail (None) if it failed or timed out
+    4. pull the 4 string lists out of the JSON
+    """
+    if not os.path.exists(floss_exe):
+        print("FLOSS: tools\\floss.exe not there, install first.")
+        return None
+
+    #one list element / arg
+    cmd = [floss_exe, "-j", "-n", str(min_len), path]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        print("FLOSS: timeout > 600s")
+        return None
+
+    #non-zero = floss errors out
+    #I'm expecting .NET files to go here
+    if result.returncode != 0:
+        print("FLOSS can't run:", result.stderr.strip().splitlines()[-1])
+        return None
+
+    data = json.loads(result.stdout)
+    found = {}
+    for kind in ("static", "stack", "tight", "decoded"):
+        #each entry = dict, the text is under "string"
+        found[kind] = [s["string"] for s in data["strings"].get(kind + "_strings", [])]
+    return found
 
 
 
@@ -299,7 +369,7 @@ def print_pe_info(data):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python triage.py <file>")
+        print("python triage.py <file>")
         sys.exit(1) #error
 
     path = sys.argv[1]
@@ -309,6 +379,8 @@ def main():
 
     print_hashes(path, data)
     print_pe_info(data)
+    floss = run_floss(path)
+    print_floss(floss)
 
     
 

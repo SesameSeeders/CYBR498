@@ -7,6 +7,13 @@ samples/
 *.zip
 *.7z
 
+#external tool binaries, see tools/README.md for versions and hashes
+tools/*
+!tools/README.md
+
+#tool output, regenerable
+*.json
+
 #python
 __pycache__/
 *.pyc
