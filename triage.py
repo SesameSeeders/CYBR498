@@ -33,7 +33,7 @@ import os
 #               PACKING INDICATORS                 ||
 #---------------------------------------------------
 
-#sections w/ this randomness are probably compressed or encrypted (per Bhanot resource)
+#sections w/ this randomness are probably compressed or encrypted (Mohanta & Saldanha ch 7 p198: 7.8 packed vs 5.8 unpacked)
 high_entropy = 7.0
 
 #nromal programs import tons of stuff, and it's usually fine. A packed program imports
@@ -107,12 +107,17 @@ capa_exe = os.path.join(tools_dir, "capa.exe")
 
 def get_strings(data):
     """
-    STRINGS -> list of text foudn in the raw bytes.
-    Looks for runs of ASCII chars at least min_string_len long (4).
-    Same idea as the unix strings tool
+    STRINGS -> list of text found in the raw bytes.
+    1. ASCII runs at least min_string_len long, same idea as unix strings
+    2. UTF-16LE runs, printable byte then null byte. FLOSS counted ~200 more
+       static strings than me, turned out it reads UTF-16 too. Mohanta ch 22
+       GandCrab strings were all unicode (BinText "U" column), mine only saw "A"
     """
-    pattern = rb"[\x20-\x7e]{%d,}" % min_string_len #ASCII 0x20 (space) - 0x7e (tilde)
-    return [m.decode("ascii") for m in re.findall(pattern, data)]
+    ascii_pat = rb"[\x20-\x7e]{%d,}" % min_string_len
+    wide_pat = rb"(?:[\x20-\x7e]\x00){%d,}" % min_string_len
+    ascii_strings = [m.decode("ascii") for m in re.findall(ascii_pat, data)]
+    wide_strings = [m.decode("utf-16le") for m in re.findall(wide_pat, data)]
+    return ascii_strings + wide_strings
 
 
 
@@ -159,7 +164,7 @@ def get_imports(pe):
     return imports
 
 
-def check_packing(pe, sections, imports):
+def check_packing(pe, sections, imports, dotnet):
     """
     PACKING ASSESSMENT
     1. high entropy / empty sections
@@ -194,12 +199,20 @@ def check_packing(pe, sections, imports):
                 signals.append(f"entry point is in the last section ({s['name']})")
             break
 
+
     #4. IMPORT TABLE
-    all_names = {n for names in imports.values() for n in names}
-    if len(all_names) < min_imports:
-        signals.append(f"only {len(all_names)} imported functions (< {min_imports})")
-    if all_names and all_names <= loader_apis:
-        signals.append("imports are limited to loader APIs (LoadLibrary/GetProcAddress)")
+    #ran InstallUtil.exe (clean .NET) and this rule ran on 0 imports. Did a little digging
+    # and foudn that .NET hands off to the runtime through the CLR header so a tiny or missing table 
+    #doesn't mean packed here. rule stays for native PEs
+    #(Mohanta ch 17 p646, packed = only what the loader stub needs)
+    if not dotnet:
+        
+        all_names = {n for names in imports.values() for n in names}
+
+        if len(all_names) < min_imports:
+            signals.append(f"only {len(all_names)} imported functions (< {min_imports})")
+        if all_names and all_names <= loader_apis:
+            signals.append("imports limited to loader APIs (LoadLibrary/GetProcAddress)")
 
     #VERDICT
     #These are my thresholds, explained earlier in the code.
@@ -295,10 +308,18 @@ def print_pe_info(data):
         print(f"    {s[:100]}")
 
     #PACKING ASSESSMENT
-    signals, verdict = check_packing(pe, sections, imports)
+    signals, verdict = check_packing(pe, sections, imports, dotnet)
     print(f"\nPacking assessment: {verdict}")
     for sig in signals:
         print(f"  - {sig}")
+    if dotnet: #so ppl know if its .net and it ran or not
+        print("  (import rules skipped: .NET assembly)")
+
+
+
+
+
+
 
 def print_floss(found, limit=30):
     """
@@ -345,16 +366,24 @@ def run_floss(path, min_len=4):
     #one list element / arg
     cmd = [floss_exe, "-j", "-n", str(min_len), path]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600, stdin=subprocess.DEVNULL)
+        #DEVNULL = empty input so floss's promtpts for .NET will take the default
     except subprocess.TimeoutExpired:
         print("FLOSS: timeout > 600s")
         return None
 
     #non-zero = floss errors out
-    #I'm expecting .NET files to go here
+    #.NET files don't go here, floss exits 0 and returns static strings...
     if result.returncode != 0:
         print("FLOSS can't run:", result.stderr.strip().splitlines()[-1])
         return None
+
+    #on on eof my first passes with FLOSS< it warned me that the string extraction isn't supported
+    #And it warns that it won't deobfuscate.
+    #Adding this for clarity in the returns
+    for line in result.stderr.splitlines():
+        if "WARNING" in line:
+            print("FLOSS:", line.strip())
 
     data = json.loads(result.stdout)
     found = {}
