@@ -3,19 +3,35 @@ triage.py
 
 As stated in my thesis, when doing malware triage, analysts typically do a
 first pass using static analysis methods.
-This is becasue static analysis is faster, cheaper, and doesn't actually run the 
+This is because static analysis is faster, cheaper, and doesn't actually run the
 suspected malware.
 
-This triage.py is a sample of what that first pass may look like. All it 
-does is prints the size and hashes of a file, so that the malware sample can be identified
-and matched against other sandbox reports. The file is read only to keep it safe and
-keep it static.
+This triage.py is a sample of what that first pass may look like. The file is
+opened read only and never executed to keep it safe and keep it static.
 
+The stages run:
+1. IDENTITY: size and hashes (md5, sha1, sha256), so the sample can be identified
+   and matched against the sandbox reports
 
-Then, I use the pefile library to read the structure of the windows executable:
-1. When it was compiled
-2. What sections it has
-3. What functions it imports
+2. STRUCTURE: the pefile library reads the windows executable
+    a. Whether it is a .NET assembly
+    b. When it was compiled (info only)
+    c. What sections it has, and their entropy
+    d. What functions it imports
+
+3. STRINGS: ASCII and UTF-16 text pulled straight from the raw bytes
+
+4. PACKING ASSESSMENT: counts the packing indicators and gives a verdict
+
+5. FLOSS: recovers strings that were built on the stack or decoded at runtime
+
+6. IOC SEARCH: checks strings from 3 and 5 for URLs, IPs, registry keys,
+   file paths, and emails
+
+7. CAPA: matches code against capa's rules and lists the capabilities it finds
+
+FLOSS and capa are run as child processes from the tools folder, and their
+JSON output is read back in.
 
 """
 
@@ -27,6 +43,7 @@ import re
 import subprocess
 import json
 import os
+import textwrap
 
 
 #---------------------------------------------------
@@ -99,6 +116,30 @@ code_sections = {
     "PAGE"
 }
 
+
+
+
+#---------------------------------------------------
+#               IOC PATTERNS                       ||
+#---------------------------------------------------
+
+#these are the kinds of strings that are easy to find in a static pass:
+#domains, IPs, registry keys, file names (referenced in my paper)
+ioc_patterns = {
+    "url": re.compile(r"(?:https?|ftp)://[^\s\"'<>]{4,}", re.I),
+    #each octet capped at 255 (e.g. 6.3.9600.1 doesn't count)
+    "ipv4": re.compile(r"\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b"),
+    "registry key": re.compile(r"\b(?:HKEY_[A-Z_]+|HKLM|HKCU|SOFTWARE|SYSTEM)\\[\w\\ .\-]{3,}", re.I),
+    #% in the class so format strings like C:\%s\name still match
+    "file path": re.compile(r"(?:[A-Za-z]:\\|%[A-Za-z]+%\\)[\w\\ .\-%]{3,}"),
+    #agent tesla exfils over SMTP so an address is worth catching (reference din my paper)
+    "email": re.compile(r"\b[\w.+\-]+@[\w\-]+(?:\.[\w\-]+)+\b"),
+}
+
+
+
+
+
 #EXTERNAL TOOLS
 tools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools")
 floss_exe = os.path.join(tools_dir, "floss.exe")
@@ -118,6 +159,22 @@ def get_strings(data):
     ascii_strings = [m.decode("ascii") for m in re.findall(ascii_pat, data)]
     wide_strings = [m.decode("utf-16le") for m in re.findall(wide_pat, data)]
     return ascii_strings + wide_strings
+
+
+
+def find_iocs(strings):
+    """
+    IOCS -> dict of kind: set of matches
+    1. run all patterns against strings
+    2. set = the same URL showing up 40 times only prints once
+    """
+    found = {kind: set() for kind in ioc_patterns}
+    for s in strings:
+        for kind, pat in ioc_patterns.items():
+            #findall = every match in the string
+            #update = add them to set
+            found[kind].update(pat.findall(s))
+    return found
 
 
 
@@ -259,7 +316,7 @@ def print_pe_info(data):
         pe = pefile.PE(data=data)
     except pefile.PEFormatError:
         print("\nNot a PE file, skipping header analysis")
-        return
+        return [] #empty list so main can add floss strings
 
     dotnet = is_dotnet(pe)
     print(f"\n.NET assembly: {'yes' if dotnet else 'no'}")
@@ -294,6 +351,10 @@ def print_pe_info(data):
     if imports:
         for dll, names in imports.items():
             print(f"  {dll} ({len(names)} functions)")
+            #names can be empty if everything is imported by number, fill("") would print a blank line
+            if names:
+                print(textwrap.fill(", ".join(names), width=100,
+                                    initial_indent="      ", subsequent_indent="      "))
     else:
         print("  (no import table)")
     print(f"  Total imported functions: {sum(len(n) for n in imports.values())}")
@@ -314,6 +375,7 @@ def print_pe_info(data):
         print(f"  - {sig}")
     if dotnet: #so ppl know if its .net and it ran or not
         print("  (import rules skipped: .NET assembly)")
+    return strings #used by main for IOC search
 
 
 
@@ -366,7 +428,9 @@ def run_floss(path, min_len=4):
     #one list element / arg
     cmd = [floss_exe, "-j", "-n", str(min_len), path]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600, stdin=subprocess.DEVNULL)
+        #utf-8 + errors=replace so a werid byte in a malware string doesn't kill the run
+        #(text=True alone uses the windows codepage)
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600, stdin=subprocess.DEVNULL)
         #DEVNULL = empty input so floss's promtpts for .NET will take the default
     except subprocess.TimeoutExpired:
         print("FLOSS: timeout > 600s")
@@ -375,7 +439,8 @@ def run_floss(path, min_len=4):
     #non-zero = floss errors out
     #.NET files don't go here, floss exits 0 and returns static strings...
     if result.returncode != 0:
-        print("FLOSS can't run:", result.stderr.strip().splitlines()[-1])
+        err = result.stderr.strip().splitlines()
+        print("FLOSS can't run:", err[-1] if err else "no error text")
         return None
 
     #on on eof my first passes with FLOSS< it warned me that the string extraction isn't supported
@@ -393,6 +458,76 @@ def run_floss(path, min_len=4):
     return found
 
 
+def print_iocs(found, limit=25):
+    """
+    IOC section print
+    1. one block per kind, skip the kinds with nothing
+    2. sorted so two runs on the same file print in the same order (sets dont have order)
+    """
+    print("\nIndicators of compromise:")
+    #any() = True if at least one of the sets has something in it
+    if not any(found.values()):
+        print("  (none found)")
+        return
+
+    for kind, hits in found.items():
+        if not hits:
+            continue
+        print(f"  {kind} ({len(hits)}):")
+        for h in sorted(hits)[:limit]: #limit in args to stop flooding
+            print(f"    {h[:100]}")
+
+
+def run_capa(path):
+    """
+    1. make sure capa.exe is in tools\
+    2. run it with -j so the output is JSON
+    3. bail (None) if it failed or timed out
+    4. pull (namespace, rule name) for every rule that matched
+    """
+    if not os.path.exists(capa_exe):
+        print("capa: tools\\capa.exe not there, install first.")
+        return None
+
+    cmd = [capa_exe, "-j", path]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8",
+                                errors="replace", timeout=900, stdin=subprocess.DEVNULL)
+    except subprocess.TimeoutExpired:
+        print("capa: timeout > 900s")
+        return None
+
+    if result.returncode != 0:
+        err = result.stderr.strip().splitlines()
+        print("capa can't run:", err[-1] if err else "no error text")
+        return None
+
+    data = json.loads(result.stdout)
+    caps = []
+    for name, rule in data["rules"].items():
+        meta = rule["meta"]
+        if meta.get("lib"):
+            continue
+        caps.append((meta.get("namespace", ""), name))
+    return sorted(caps) #sorted by namespace so related capabilities print together
+
+
+def print_capa(caps):
+    """
+    capa section print
+    1. count first (# that goes in the results table)
+    2. one line per capability
+    """
+    print("\ncapa:")
+    if caps is None:
+        print("  can't get.")
+        return
+
+    print(f"  {len(caps)} capabilities matched")
+    for namespace, name in caps:
+        print(f"    {namespace}: {name}")
+
+
 
 #============================================================================
 
@@ -407,9 +542,21 @@ def main():
         data = f.read()
 
     print_hashes(path, data)
-    print_pe_info(data)
+    strings = print_pe_info(data)
     floss = run_floss(path)
     print_floss(floss)
+
+    #IOC SEARCH
+    #list() = copy, so adding the floss strings doesn't change the original list
+    all_strings = list(strings)
+    #floss is None if the exe is missing or it timed out, so only add its lists if it ran
+    if floss is not None:
+        for kind in ("stack", "tight", "decoded"):
+            all_strings += floss[kind]
+    print_iocs(find_iocs(all_strings))
+
+    capa = run_capa(path)
+    print_capa(capa)
 
     
 
