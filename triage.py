@@ -142,8 +142,11 @@ ioc_patterns = {
 
 #EXTERNAL TOOLS
 tools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools")
-floss_exe = os.path.join(tools_dir, "floss.exe")
-capa_exe = os.path.join(tools_dir, "capa.exe")
+#windows builds = floss.exe / capa.exe, linux builds (analysis VM) = no extension
+#os.name is "nt" on windows only
+ext = ".exe" if os.name == "nt" else ""
+floss_exe = os.path.join(tools_dir, "floss" + ext)
+capa_exe = os.path.join(tools_dir, "capa" + ext)
 
 
 def get_strings(data):
