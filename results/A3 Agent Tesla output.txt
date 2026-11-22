@@ -1,0 +1,77 @@
+File:   /home/analyst/samples/agenttesla.bin
+Size:   807424 bytes
+MD5:    61298feca856c8f43082b91c01341955
+SHA1:   df9bc4b6424590d95db90d20b8fe421117fffe37
+SHA256: 8a8ce129b3b8e9d9cd27fd9cb793f0e0868b67579d595f076e2ffc81d3dafce2
+
+.NET assembly: yes
+Compiled: 2026-10-29 21:04:59 UTC (info only)
+
+Sections:
+  Name        VirtSize   RawSize  Entropy
+  .text         804552    804864     7.63  <-- high
+  .rsrc           1488      1536     4.17
+  .reloc            12       512     0.10
+
+Imports:
+  mscoree.dll (1 functions)
+      _CorExeMain
+  Total imported functions: 1
+
+Strings: 8406 found (showing 20 longest)
+    lSystem.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5
+    lSystem.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5
+    lSystem.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5
+    lSystem.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5
+    lSystem.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5
+    lSystem.Resources.ResourceReader, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5
+    413 43B 430 43C 443 440 2075455468413 43B 430 43C 443 440 20413 43B 430 43C 443 440 206C6767413 43B 
+    hSystem.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d
+    fSystem.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50
+    Total Sorts: {0:N0}  |  Uppercase: {1:N0}  |  Lowercase: {2:N0}  |  Ligatures: {3:N0}  |  Spaces: {4
+    Shop Plan: Compositing Stands  |  Imposing Stone & Chase  |  Inking Balls  |  Two-Pull Press
+    Letterpress guild appraisal, standard sheets, spoilage rate, errors surviving and grade
+    [Day {0:F1}] INCIDENT: Type pied on composing bench! Sorts scattered across the floor.
+    Validation against PrintingHouseSchema.xsd failed or schema file could not be located.
+    Manage fonts, case layout, chase iron dimensions, lead furniture and compositor speed
+    Live press run tracking: forme setting, ink drying, sheets pulled, wear and spoilage
+    QSystem.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+    QSystem.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+    QSystem.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+    Configure sheet volume, pages per forme, imposition scheme, ink and proof rounds
+
+Packing assessment: no strong packing indicators
+  - section .text has entropy 7.63 (> 7.0)
+  (import rules skipped: .NET assembly)
+FLOSS: WARNING: floss: .NET language-specific string extraction is not supported yet
+FLOSS: WARNING: floss: FLOSS does NOT attempt to deobfuscate any strings from .NET binaries
+
+FLOSS:
+  static 8633, stack 0, tight 0, decoded 0
+
+Indicators of compromise:
+  url (3):
+    http://tempuri.org/DataSet1.xsd
+    http://tempuri.org/PrintingHouseSchema.xsd
+    http://www.w3.org/2001/XMLSchema
+  ipv4 (4):
+    1.0.0.0
+    16.0.0.0
+    16.10.0.0
+    4.0.0.0
+  email (1):
+    K@4.T
+
+capa:
+  11 capabilities matched
+    anti-analysis: reference analysis tools strings
+    data-manipulation/prng: generate random numbers in .NET
+    data-manipulation/regex: find data using regex in .NET
+    executable/resource: access .NET resource
+    host-interaction/file-system: get common file path
+    host-interaction/file-system/delete: delete file
+    host-interaction/file-system/exists: check if file exists
+    host-interaction/file-system/read: read file in .NET
+    internal/limitation/dynamic: (internal) .NET file limitation
+    load-code/dotnet: load .NET assembly
+    runtime/dotnet: compiled to the .NET platform

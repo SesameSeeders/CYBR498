@@ -1,0 +1,272 @@
+File:   /home/analyst/work/putty.exe
+Size:   1706136 bytes
+MD5:    0673fca154b47e4158269b4eadd23689
+SHA1:   0456c056dfb21549163a48c2e9b10dd572c9924f
+SHA256: d01fdb5aae8f112526040a39b0bfb9e27d813003178645e65f8d1cfdb2a26c87
+
+.NET assembly: no
+Compiled: 2026-08-14 05:56:03 UTC (info only)
+
+Sections:
+  Name        VirtSize   RawSize  Entropy
+  .text         971334    971776     6.45
+  .rdata        273252    273408     5.44
+  .data          16908      4096     2.07
+  .pdata         29160     29184     5.92
+  .00cfg            56       512     0.51
+  .gxfg          10976     11264     5.14
+  .tls              17       512     0.00
+  _RDATA           348       512     3.26
+  .rsrc         378360    378368     7.83  <-- high
+  .reloc          8692      8704     5.44
+
+Imports:
+  GDI32.dll (51 functions)
+      BitBlt, CreateBitmap, CreateCompatibleBitmap, CreateCompatibleDC, CreateFontA,
+      CreateFontIndirectA, CreatePalette, CreatePen, CreateSolidBrush, DeleteDC, DeleteObject,
+      ExcludeClipRect, ExtTextOutA, ExtTextOutW, GetBkMode, GetCharABCWidthsFloatA, GetCharWidth32A,
+      GetCharWidth32W, GetCharWidthA, GetCharWidthW, GetCharacterPlacementW, GetCurrentObject,
+      GetDIBits, GetDeviceCaps, GetObjectA, GetOutlineTextMetricsA, GetPixel, GetStockObject,
+      GetTextExtentExPointA, GetTextExtentPoint32A, GetTextExtentPointA, GetTextMetricsA,
+      IntersectClipRect, LineTo, MoveToEx, Polyline, RealizePalette, Rectangle, SelectObject,
+      SelectPalette, SetBkColor, SetBkMode, SetMapMode, SetPaletteEntries, SetPixel, SetTextAlign,
+      SetTextColor, TextOutA, TranslateCharsetInfo, UnrealizeObject, UpdateColors
+  IMM32.dll (5 functions)
+      ImmGetCompositionStringW, ImmGetContext, ImmReleaseContext, ImmSetCompositionFontA,
+      ImmSetCompositionWindow
+  ole32.dll (3 functions)
+      CoCreateInstance, CoInitialize, CoUninitialize
+  USER32.dll (119 functions)
+      AppendMenuA, BeginPaint, CheckDlgButton, CheckMenuItem, CheckRadioButton, CloseClipboard,
+      CreateCaret, CreateDialogParamA, CreateMenu, CreatePopupMenu, CreateWindowExA,
+      CreateWindowExW, DefDlgProcA, DefWindowProcA, DefWindowProcW, DeleteMenu, DestroyCaret,
+      DestroyIcon, DestroyWindow, DialogBoxParamA, DispatchMessageA, DispatchMessageW, DrawEdge,
+      DrawIconEx, EmptyClipboard, EnableMenuItem, EnableWindow, EndDialog, EndPaint, FindWindowA,
+      FlashWindow, GetCapture, GetCaretBlinkTime, GetClientRect, GetClipboardData,
+      GetClipboardOwner, GetCursorPos, GetDC, GetDesktopWindow, GetDlgItem, GetDoubleClickTime,
+      GetForegroundWindow, GetKeyboardLayout, GetKeyboardState, GetMessageA, GetMessageTime,
+      GetParent, GetQueueStatus, GetScrollInfo, GetSysColor, GetSysColorBrush, GetSystemMenu,
+      GetSystemMetrics, GetWindowLongPtrA, GetWindowPlacement, GetWindowRect, GetWindowTextA,
+      GetWindowTextLengthA, GetWindowTextLengthW, GetWindowTextW, HideCaret, InsertMenuA,
+      InvalidateRect, IsDialogMessageA, IsDlgButtonChecked, IsIconic, IsWindow, IsZoomed, KillTimer,
+      LoadCursorA, LoadIconA, LoadImageA, MapDialogRect, MessageBeep, MessageBoxA,
+      MessageBoxIndirectW, MoveWindow, MsgWaitForMultipleObjects, OffsetRect, OpenClipboard,
+      PeekMessageA, PeekMessageW, PostMessageA, PostQuitMessage, RegisterClassA, RegisterClassW,
+      RegisterClipboardFormatA, RegisterWindowMessageA, ReleaseCapture, ReleaseDC, ScreenToClient,
+      SendDlgItemMessageA, SendMessageA, SetActiveWindow, SetCapture, SetCaretPos, SetClassLongPtrA,
+      SetClipboardData, SetCursor, SetDlgItemTextA, SetDlgItemTextW, SetFocus, SetForegroundWindow,
+      SetKeyboardState, SetScrollInfo, SetTimer, SetWindowLongPtrA, SetWindowPlacement,
+      SetWindowPos, SetWindowTextA, SetWindowTextW, ShowCaret, ShowCursor, ShowWindow,
+      SystemParametersInfoA, ToAsciiEx, TrackPopupMenu, TranslateMessage, UpdateWindow
+  KERNEL32.dll (148 functions)
+      Beep, ClearCommBreak, CloseHandle, CompareStringW, ConnectNamedPipe, CreateEventA,
+      CreateFileA, CreateFileMappingA, CreateFileW, CreateMutexA, CreateNamedPipeA, CreatePipe,
+      CreateProcessA, CreateThread, DeleteCriticalSection, DeleteFileA, EncodePointer,
+      EnterCriticalSection, EnumSystemLocalesW, ExitProcess, FindClose, FindFirstFileA,
+      FindFirstFileExW, FindFirstFileW, FindNextFileA, FindNextFileW, FindResourceA, FlsAlloc,
+      FlsFree, FlsGetValue, FlsSetValue, FlushFileBuffers, FormatMessageA, FreeEnvironmentStringsW,
+      FreeLibrary, GetACP, GetCPInfo, GetCommState, GetCommandLineA, GetCommandLineW,
+      GetConsoleMode, GetConsoleOutputCP, GetCurrentDirectoryA, GetCurrentDirectoryW,
+      GetCurrentProcess, GetCurrentProcessId, GetCurrentThread, GetCurrentThreadId, GetDateFormatW,
+      GetEnvironmentStringsW, GetEnvironmentVariableA, GetExitCodeProcess, GetFileSizeEx,
+      GetFileType, GetLastError, GetLocalTime, GetLocaleInfoA, GetLocaleInfoW, GetModuleFileNameA,
+      GetModuleFileNameW, GetModuleHandleExW, GetModuleHandleW, GetOEMCP, GetOverlappedResult,
+      GetProcAddress, GetProcessHeap, GetProcessTimes, GetStartupInfoW, GetStdHandle,
+      GetStringTypeW, GetSystemDirectoryA, GetSystemTimeAsFileTime, GetTempPathA, GetThreadTimes,
+      GetTickCount, GetTimeFormatW, GetTimeZoneInformation, GetUserDefaultLCID,
+      GetWindowsDirectoryA, GlobalAlloc, GlobalFree, GlobalLock, GlobalMemoryStatus, GlobalUnlock,
+      HeapAlloc, HeapFree, HeapReAlloc, HeapSize, InitializeCriticalSection,
+      InitializeCriticalSectionAndSpinCount, InitializeSListHead, IsDBCSLeadByteEx,
+      IsDebuggerPresent, IsProcessorFeaturePresent, IsValidCodePage, IsValidLocale, LCMapStringW,
+      LeaveCriticalSection, LoadLibraryA, LoadLibraryExA, LoadLibraryExW, LoadResource, LocalAlloc,
+      LocalFileTimeToFileTime, LocalFree, LockResource, MapViewOfFile, MulDiv, MultiByteToWideChar,
+      OpenProcess, OutputDebugStringW, QueryPerformanceCounter, RaiseException, ReadConsoleW,
+      ReadFile, ReleaseMutex, RtlCaptureContext, RtlLookupFunctionEntry, RtlPcToFileHeader,
+      RtlUnwind, RtlUnwindEx, RtlVirtualUnwind, SetCommBreak, SetCommState, SetCommTimeouts,
+      SetCurrentDirectoryA, SetCurrentDirectoryW, SetEndOfFile, SetEnvironmentVariableW, SetEvent,
+      SetFilePointerEx, SetHandleInformation, SetLastError, SetStdHandle,
+      SetUnhandledExceptionFilter, SizeofResource, TerminateProcess, TlsAlloc, TlsFree, TlsGetValue,
+      TlsSetValue, UnhandledExceptionFilter, UnmapViewOfFile, WaitForSingleObject, WaitNamedPipeA,
+      WideCharToMultiByte, WriteConsoleW, WriteFile
+  SHELL32.dll (1 functions)
+      ShellExecuteA
+  COMDLG32.dll (6 functions)
+      ChooseColorA, ChooseFontA, GetOpenFileNameA, GetOpenFileNameW, GetSaveFileNameA,
+      GetSaveFileNameW
+  ADVAPI32.dll (15 functions)
+      AllocateAndInitializeSid, CopySid, EqualSid, GetLengthSid, GetUserNameA,
+      InitializeSecurityDescriptor, RegCloseKey, RegCreateKeyExA, RegDeleteKeyA, RegEnumKeyA,
+      RegOpenKeyExA, RegQueryValueExA, RegSetValueExA, SetSecurityDescriptorDacl,
+      SetSecurityDescriptorOwner
+  Total imported functions: 348
+
+Strings: 23211 found (showing 20 longest)
+    0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF
+    0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF
+    0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF
+    0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF
+    0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NO
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and as
+    Portions copyright Robert de Bath, Joris van Rantwijk, Delian Delchev, Andreas Schultz, Jeroen Massa
+    The error is due to a malformed input token, such as a token corrupted in transit, a token of incorr
+    0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF
+    You can also avoid this vulnerability by abandoning this connection, moving ChaCha20 to below the 'w
+    This means that either another certification authority is operating in this realm AND the server adm
+    No authority could be contacted for authentication.The domain name of the authenticating party could
+    The %s selected for this session is %s, which, with this server, is vulnerable to the 'Terrapin' att
+    These are the fingerprints of the PuTTY PGP Master Keys. They can be used to establish a trust path 
+    conf_key_info[primary].value_type == CONF_TYPE_STR || conf_key_info[primary].value_type == CONF_TYPE
+    This means that either another certification authority is operating in this realm, or you have actua
+    This means that either the server administrator has changed the host key, or you have actually conne
+    0x01ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    0x01ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+Packing assessment: no strong packing indicators
+  - section .rsrc has entropy 7.83 (> 7.0)
+
+FLOSS:
+  static 23533, stack 2, tight 6, decoded 7
+  stack strings (2):
+    0.0.0.0
+    fffe
+  tight strings (6):
+    j:,4;87
+    KNNNPOO
+    u1H;qi 
+    SNdoBL
+    Tqz7
+    27uZ
+  decoded strings (7):
+    hW8K
+    L0Mw
+    7Zj1b
+    7TAN
+    KoPk
+    U9Uz
+    Fz3G
+
+Indicators of compromise:
+  url (17):
+    http://crl.sectigo.com/SectigoPublicCodeSigningCAR36.crl0y
+    http://crl.sectigo.com/SectigoPublicCodeSigningRootR46.crl0{
+    http://crl.sectigo.com/SectigoPublicTimeStampingCAR41.crl0z
+    http://crl.sectigo.com/SectigoPublicTimeStampingRootR46.crl0|
+    http://crl.usertrust.com/USERTrustRSACertificationAuthority.crl05
+    http://crt.sectigo.com/SectigoPublicCodeSigningCAR36.crt0#
+    http://crt.sectigo.com/SectigoPublicCodeSigningRootR46.p7c0#
+    http://crt.sectigo.com/SectigoPublicTimeStampingCAR41.crt0#
+    http://crt.sectigo.com/SectigoPublicTimeStampingRootR46.p7c0#
+    http://ocsp.sectigo.com0
+    http://ocsp.usertrust.com0
+    http://schemas.microsoft.com/SMI/2005/WindowsSettings
+    http://schemas.microsoft.com/SMI/2016/WindowsSettings
+    https://sectigo.com/CPS0
+    https://sectigo.com/CPS0J
+    https://www.chiark.greenend.org.uk/~sgtatham/putty/
+    https://www.chiark.greenend.org.uk/~sgtatham/putty/0
+  ipv4 (2):
+    0.0.0.0
+    6.0.0.0
+  registry key (9):
+    SOFTWARE\MIT\Kerberos
+    Software\SimonTatham
+    Software\SimonTatham\PuTTY
+    Software\SimonTatham\PuTTY64\CHMPath
+    Software\SimonTatham\PuTTY\CHMPath
+    Software\SimonTatham\PuTTY\Jumplist
+    Software\SimonTatham\PuTTY\Sessions
+    Software\SimonTatham\PuTTY\SshHostCAs
+    Software\SimonTatham\PuTTY\SshHostKeys
+  email (30):
+    SSHCONNECTION@putty.projects.tartarus.org
+    SSHCONNECTION@putty.projects.tartarus.org-2.0
+    aes128-gcm@openssh.com
+    aes256-gcm@openssh.com
+    auth-agent-req@openssh.com
+    auth-agent@openssh.com
+    chacha20-poly1305@openssh.com
+    curve25519-sha256@libssh.org
+    des-cbc@ssh.com
+    ecdsa-sha2-nistp256-cert-v01@openssh.com
+    ecdsa-sha2-nistp384-cert-v01@openssh.com
+    ecdsa-sha2-nistp521-cert-v01@openssh.com
+    hmac-md5-etm@openssh.com
+    hmac-sha1-96-etm@openssh.com
+    hmac-sha1-etm@openssh.com
+    hmac-sha2-256-etm@openssh.com
+    hmac-sha2-512-etm@openssh.com
+    kex-strict-c-v00@openssh.com
+    kex-strict-s-v00@openssh.com
+    putty@projects.tartarus.org
+    rijndael-cbc@lysator.liu.se
+    rsa-sha2-256-cert-v01@openssh.com
+    rsa-sha2-512-cert-v01@openssh.com
+    simple@putty.projects.tartarus.org
+    sntrup761x25519-sha512@openssh.com
+
+capa:
+  63 capabilities matched
+    anti-analysis: reference analysis tools strings
+    anti-analysis/anti-debugging/debugger-detection: check for time delay via GetTickCount
+    collection: get geographical location
+    collection/credit-card: parse credit card information
+    collection/keylog: log keystrokes via polling
+    collection/screenshot: capture screenshot
+    communication/c2/shell: create reverse shell
+    communication/named-pipe/connect: connect pipe
+    communication/named-pipe/create: create pipe
+    data-manipulation/encoding/base64: encode data using Base64
+    data-manipulation/encoding/base64: reference Base64 string
+    data-manipulation/encoding/xor: encode data using XOR
+    data-manipulation/encryption/aes: decrypt data using AES via x86 extensions
+    data-manipulation/encryption/aes: encrypt data using AES via x86 extensions
+    data-manipulation/encryption/blowfish: encrypt data using blowfish
+    data-manipulation/encryption/rc4: encrypt data using RC4 KSA
+    data-manipulation/encryption/rc4: encrypt data using RC4 PRGA
+    data-manipulation/hashing/murmur: hash data using murmur3
+    data-manipulation/hashing/sha1: hash data using SHA1
+    data-manipulation/hashing/sha1: hash data using sha1 via x86 extensions
+    data-manipulation/hashing/sha256: hash data using SHA256
+    data-manipulation/hashing/sha256: hash data using sha256 via x86 extensions
+    data-manipulation/hashing/sha512: hash data using SHA512
+    data-manipulation/hmac: authenticate HMAC
+    executable/pe/debug: debug build
+    executable/pe/section/tls: contain a thread local storage (.tls) section
+    executable/resource: extract resource via kernel32 functions
+    host-interaction/cli: accept command line arguments
+    host-interaction/clipboard: open clipboard
+    host-interaction/clipboard: read clipboard data
+    host-interaction/clipboard: write clipboard data
+    host-interaction/environment-variable: query environment variable
+    host-interaction/environment-variable: set environment variable
+    host-interaction/file-system: get common file path
+    host-interaction/file-system: set current directory
+    host-interaction/file-system/delete: delete file
+    host-interaction/file-system/exists: check if file exists
+    host-interaction/file-system/files/list: enumerate files on Windows
+    host-interaction/file-system/read: read file on Windows
+    host-interaction/file-system/read: read file via mapping
+    host-interaction/file-system/write: clear file content
+    host-interaction/file-system/write: write file on Windows
+    host-interaction/gui/window/find: find graphical window
+    host-interaction/gui/window/get-text: get graphical window text
+    host-interaction/gui/window/hide: hide graphical window
+    host-interaction/hardware/keyboard: get keyboard layout
+    host-interaction/hardware/memory: get memory capacity
+    host-interaction/mutex: check mutex on Windows
+    host-interaction/mutex: create or open mutex on Windows
+    host-interaction/process/create: create process on Windows
+    host-interaction/process/terminate: terminate process
+    host-interaction/registry: query or enumerate registry key
+    host-interaction/registry: query or enumerate registry value
+    host-interaction/registry/create: set registry value
+    host-interaction/registry/delete: delete registry key
+    host-interaction/session: get session user name
+    host-interaction/sid: compare security identifiers
+    host-interaction/thread/create: create thread
+    linking/runtime-linking: link function at runtime on Windows
+    linking/runtime-linking: link many functions at runtime
+    load-code/pe: inspect section memory permissions
+    load-code/pe: parse PE header
+    load-code/pe: resolve function by parsing PE exports

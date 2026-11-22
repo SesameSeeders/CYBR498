@@ -1,0 +1,145 @@
+File:   /home/analyst/samples/wannacry.bin
+Size:   3723264 bytes
+MD5:    db349b97c37d22f5ea1d1841e3c89eb4
+SHA1:   e889544aff85ffaf8b0d0da705105dee7c97fe26
+SHA256: 24d004a104d4d54034dbcffc2a4b19a11f39008a575aa614ea04703480b1022c
+
+.NET assembly: no
+Compiled: 2010-11-20 09:03:08 UTC (info only)
+
+Sections:
+  Name        VirtSize   RawSize  Entropy
+  .text          35786     36864     6.13
+  .rdata          2456      4096     3.50
+  .data        3164316    159744     6.10
+  .rsrc        3515476   3518464     8.00  <-- high
+
+Imports:
+  KERNEL32.dll (32 functions)
+      WaitForSingleObject, InterlockedIncrement, GetCurrentThreadId, GetCurrentThread, ReadFile,
+      GetFileSize, CreateFileA, MoveFileExA, SizeofResource, TerminateThread, LoadResource,
+      FindResourceA, GetProcAddress, GetModuleHandleW, ExitProcess, GetModuleFileNameA, LocalFree,
+      LocalAlloc, CloseHandle, InterlockedDecrement, EnterCriticalSection, LeaveCriticalSection,
+      InitializeCriticalSection, GlobalAlloc, GlobalFree, QueryPerformanceFrequency,
+      QueryPerformanceCounter, GetTickCount, LockResource, Sleep, GetStartupInfoA, GetModuleHandleA
+  ADVAPI32.dll (11 functions)
+      StartServiceCtrlDispatcherA, RegisterServiceCtrlHandlerA, ChangeServiceConfig2A,
+      SetServiceStatus, OpenSCManagerA, CreateServiceA, CloseServiceHandle, StartServiceA,
+      CryptGenRandom, CryptAcquireContextA, OpenServiceA
+  WS2_32.dll (13 functions)
+      closesocket, recv, send, htonl, ntohl, WSAStartup, inet_ntoa, ioctlsocket, select, htons,
+      socket, connect, inet_addr
+  MSVCP60.dll (2 functions)
+      ??1_Lockit@std@@QAE@XZ, ??0_Lockit@std@@QAE@XZ
+  iphlpapi.dll (2 functions)
+      GetAdaptersInfo, GetPerAdapterInfo
+  WININET.dll (3 functions)
+      InternetOpenA, InternetOpenUrlA, InternetCloseHandle
+  MSVCRT.dll (28 functions)
+      __set_app_type, _stricmp, __p__fmode, __p__commode, _except_handler3, __setusermatherr,
+      _initterm, __getmainargs, _acmdln, _adjust_fdiv, _controlfp, exit, _XcptFilter, _exit,
+      _onexit, __dllonexit, free, ??2@YAPAXI@Z, _ftol, sprintf, _endthreadex, strncpy, rand,
+      _beginthreadex, __CxxFrameHandler, srand, time, __p___argc
+  Total imported functions: 91
+
+Strings: 43863 found (showing 20 longest)
+    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
+
+Packing assessment: no strong packing indicators
+  - section .rsrc has entropy 8.00 (> 7.0)
+
+FLOSS:
+  static 45337, stack 15, tight 0, decoded 6
+  stack strings (15):
+    SMBu
+    /K__USERID__PLACEHOLDER__
+    PIPE
+    SMBr
+    PC NETWORK PROGRAM 1.0
+    LANMAN1.0
+    Windows for Workgroups 3.1a
+    LM1.2X002
+    LANMAN2.1
+    NT LM 0.12
+    SMBs
+    SMB2
+    Windows 2000 2195
+    Windows 2000 5.0
+    \\192.168.56.20\IPC$
+  decoded strings (6):
+    SMBu
+    AWAVAUATSQRUWVPP
+    QQjh
+    t.M1
+    XX^_]ZY[A\A]A^A_H
+    SVQRH
+
+Indicators of compromise:
+  url (1):
+    http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com
+  ipv4 (3):
+    172.16.99.5
+    192.168.56.20
+    6.0.0.0
+  file path (2):
+    C:\%s\%s
+    C:\%s\qeriuwjhrf
+  email (2):
+    4@0.f
+    r@IQ.B
+
+capa:
+  34 capabilities matched
+    anti-analysis: reference analysis tools strings
+    anti-analysis/anti-debugging/debugger-detection: check for time delay via QueryPerformanceCounter
+    anti-analysis/obfuscation/string/stackstring: contain obfuscated stackstrings
+    communication: receive data
+    communication: send data
+    communication/http/client: connect to URL
+    communication/http/client: create HTTP request
+    communication/socket: connect socket
+    communication/socket: get socket status
+    communication/socket: initialize Winsock library
+    communication/socket: set socket configuration
+    communication/socket/receive: receive data on socket
+    communication/socket/send: send data on socket
+    communication/socket/tcp: connect TCP socket
+    communication/socket/tcp: create TCP socket
+    communication/tcp/client: act as TCP client
+    data-manipulation/prng: generate random numbers via WinAPI
+    executable/resource: extract resource via kernel32 functions
+    executable/subfile/pe: contain an embedded PE file
+    host-interaction/file-system/meta: get file size
+    host-interaction/file-system/move: move file
+    host-interaction/file-system/read: read file on Windows
+    host-interaction/hardware/cpu: get number of processors
+    host-interaction/process/terminate: terminate process
+    host-interaction/service: run as service
+    host-interaction/service/create: create service
+    host-interaction/service/modify: modify service
+    host-interaction/service/start: start service
+    host-interaction/thread/create: create thread
+    host-interaction/thread/terminate: terminate thread
+    linking/runtime-linking: link function at runtime on Windows
+    linking/static/zlib: linked against ZLIB
+    load-code/pe: inspect section memory permissions
+    persistence/service: persist via Windows service
