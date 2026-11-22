@@ -326,7 +326,7 @@ def print_pe_info(data):
  
     #COMPILE TIME
     #Since the compiler writes in Unix time, malware authors can forge it
-    #notepad.exe came back as 1979, so printed for reference only, not a packing signal
+    #wannacry sample came back as 2010, so printed for reference only, not a packing signal
     ts = pe.FILE_HEADER.TimeDateStamp
     compiled = datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc)
     print(f"Compiled: {compiled:%Y-%m-%d %H:%M:%S} UTC (info only)")
